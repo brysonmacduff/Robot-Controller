@@ -1,0 +1,7 @@
+
+add_subdirectory(sensor_manager)
+add_subdirectory(motor_driver)
+add_subdirectory(motion_controller)
+add_subdirectory(link_manager)
+add_subdirectory(component_manager)
+add_subdirectory(src)
