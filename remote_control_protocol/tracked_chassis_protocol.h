@@ -18,13 +18,13 @@ public:
         ROTATE_CLOCKWISE,
         ROTATE_ANTICLOCKWISE
     };
-
-    static constexpr std::map<MotionState, uint8_t> MOTION_STATE_CODES = { 
+    
+    inline static const std::map<MotionState, uint8_t> MOTION_STATE_CODES = { 
         {MotionState::IDLE, 0x00},
         {MotionState::TRANSLATE_FORWARD, 0x01},
         {MotionState::ROTATE_CLOCKWISE, 0x02},
         {MotionState::ROTATE_ANTICLOCKWISE, 0x03}
-    }
+    };
 
     class CommandType
     {
@@ -40,7 +40,7 @@ public:
         static constexpr uint8_t MOTION_STATE = 0x00;
     };
 
-    static Packet BuildMotionCommandPacket(const MotionState& motion_command);
-    static Packet BuildMotionStatusPacket(const MotionState& motion_status);
+    static Packet BuildMotionCommandPacket(const MotionState& motion_command, uint8_t sequence_number);
+    static Packet BuildMotionStatusPacket(const MotionState& motion_status,uint8_t sequence_number);
 };
 } // namespace RobotMiddleware

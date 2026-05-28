@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <array>
 #include <map>
+#include <cstring>
 
 namespace RobotMiddleware
 {
@@ -21,7 +22,7 @@ struct Packet
     uint8_t sequence_number {0};
     // Specifies either the type of command or type of status
     uint8_t payload_type {0};
-    uint8_t payload_length {0};
+    uint8_t payload_size {0};
     std::array<uint8_t, 28> payload {0};
 };
 #pragma pack(pop)
@@ -33,14 +34,14 @@ struct Packet
 class RemoteControlProtocol
 {
 public:
-    RemoteControlProtocol() = delete;
-
-    using PacketBytes = std::array<uint8_t, PACKET_SIZE>;
-
     static constexpr uint8_t PACKET_SIZE = 32;
 
-    static std::array<uint8_t, PACKET_SIZE> Serialize(const Packet& packet);
-    static Packet Deserialize(const PacketBytes& bytes);
+    using SerializedPacket = std::array<uint8_t, PACKET_SIZE>;
+
+    RemoteControlProtocol() = delete;
+
+    static SerializedPacket Serialize(const Packet& packet);
+    static Packet Deserialize(const SerializedPacket& bytes);
 };
 
 } // namespace RobotMiddleware
