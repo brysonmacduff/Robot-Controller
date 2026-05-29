@@ -7,13 +7,11 @@ namespace RobotController
 class ILinkManager
 {
 public:
-    using Packet = RobotMiddleware::Packet;
-
-    using RxPacketCallback = std::function<void(const Packet& packet)>;
+    using RxPacketCallback = std::function<void(const RobotMiddleware::Packet& packet)>;
 
     virtual ~ILinkManager() = default;
 
-    virtual void EnqueueTxPacket(const Packet& packet) = 0;
+    virtual void EnqueueTxPacket(const RobotMiddleware::Packet& packet) = 0;
     virtual void SetRxPacketCallback(RxPacketCallback callback) = 0;
 
 };
