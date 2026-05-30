@@ -1,9 +1,10 @@
-#include "link_manager.h"
+#include "nrf24l01_link_manager.h"
 
 namespace RobotController
 {
-LinkManager::LinkManager(uint8_t chip_enable_gpio, SpiOption spi_option, uint64_t radio_pipe_address, std::chrono::milliseconds radio_rx_timeout)
-: m_radio_rx_timeout(radio_rx_timeout)
+Nrf24l01LinkManager::Nrf24l01LinkManager(uint8_t chip_enable_gpio, SpiOption spi_option, uint64_t radio_pipe_address, std::chrono::milliseconds radio_rx_timeout)
+: m_radio_pipe_address(radio_pipe_address)
+, m_radio_rx_timeout(radio_rx_timeout)
 , m_transport_manager(MTP32::TransportManager(MTP32::Role::SLAVE
     , [&](MTP32::Packet tx_packet_bytes){ RequestRadioTx(tx_packet_bytes); }
     , [&](){ return RequestRadioRx(); }
@@ -11,11 +12,16 @@ LinkManager::LinkManager(uint8_t chip_enable_gpio, SpiOption spi_option, uint64_
     , m_radio_rx_timeout))
     , m_radio(RF24(chip_enable_gpio, static_cast<uint8_t>(spi_option)))
 {
-    InitializeRadio(radio_pipe_address);
 }
 
-void LinkManager::EnqueueTxPacket(const RobotMiddleware::Packet& packet)
+void Nrf24l01LinkManager::EnqueueTxPacket(const RobotMiddleware::Packet& packet)
 {
+    if(not IsRadioInitialized())
+    {   
+        spdlog::error("{}::{}() -> Cannot service TX request. Radio is not initialized!",CLASS_NAME,__func__);
+        return;
+    }
+
     MTP32::Packet tx_packet_bytes {};
 
     memcpy(tx_packet_bytes.data(), &packet, MTP32::MAXIMUM_PACKET_SIZE);
@@ -23,24 +29,35 @@ void LinkManager::EnqueueTxPacket(const RobotMiddleware::Packet& packet)
     m_transport_manager.EnqueuePacket(tx_packet_bytes);
 }
 
-void LinkManager::SetRxPacketCallback(RxPacketCallback callback)
+void Nrf24l01LinkManager::SetRxPacketCallback(RxPacketCallback callback)
 {
     m_rx_packet_callback = std::move(callback);
 }
 
-void LinkManager::Run(std::chrono::system_clock::time_point current_time)
+void Nrf24l01LinkManager::Run(std::chrono::system_clock::time_point current_time)
 {
+    if(not IsRadioInitialized())
+    {
+        spdlog::error("{}::{}() -> Failed to run radio worker task. Radio is not initialized!",CLASS_NAME,__func__);
+        return;
+    }
+
     m_transport_manager.Run(current_time);
 }
 
-void LinkManager::InitializeRadio(uint64_t radio_pipe_address)
+bool Nrf24l01LinkManager::InitializeRadio()
 {
+    if(IsRadioInitialized())
+    {
+        return true;
+    }
+
     // Initialize the radio hardware
 
     if (not m_radio.begin()) 
     {
-        spdlog::critical("{}::{}() -> Failed to initialize radio hardware. This is a failure.",CLASS_NAME,__func__);
-        return;
+        spdlog::critical("{}::{}() -> Failed to initialize radio hardware. This is a fatal error.",CLASS_NAME,__func__);
+        return false;
     }
 
     // These could be made configurable but it is unclear at this time whether they should be.
@@ -48,11 +65,18 @@ void LinkManager::InitializeRadio(uint64_t radio_pipe_address)
     m_radio.setDataRate(RF24_1MBPS);
 
     // Open pipes for both TX and RX
-    m_radio.openWritingPipe(radio_pipe_address);
-    m_radio.openReadingPipe(1, radio_pipe_address);
+    m_radio.openWritingPipe(m_radio_pipe_address);
+    m_radio.openReadingPipe(1, m_radio_pipe_address);
+
+    // Enter RX mode to start
+    m_radio.startListening();
+
+    m_is_radio_initialized = true;
+
+    return IsRadioInitialized();
 }
 
-std::optional<MTP32::Packet> LinkManager::RequestRadioRx()
+std::optional<MTP32::Packet> Nrf24l01LinkManager::RequestRadioRx()
 {
     // Poll the radio hardware to see if a packet was received
     if (not m_radio.available()) 
@@ -67,7 +91,7 @@ std::optional<MTP32::Packet> LinkManager::RequestRadioRx()
     return packet;
 }
 
-void LinkManager::HandleReceivedPacket(const MTP32::Packet &rx_packet_bytes)
+void Nrf24l01LinkManager::HandleReceivedPacket(const MTP32::Packet &rx_packet_bytes)
 {
     RobotMiddleware::Packet rx_packet {};
 
@@ -77,7 +101,7 @@ void LinkManager::HandleReceivedPacket(const MTP32::Packet &rx_packet_bytes)
     m_rx_packet_callback(rx_packet);
 }
 
-void LinkManager::RequestRadioTx(const MTP32::Packet &tx_packet_bytes)
+void Nrf24l01LinkManager::RequestRadioTx(const MTP32::Packet &tx_packet_bytes)
 {
     // Order the radio hardware to transmit the packet
     

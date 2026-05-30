@@ -1,7 +1,20 @@
-#include <iostream>
+#include "component_manager.h"
+
+using namespace RobotController;
 
 int main()
 {
-    std::cout << "main() -> Robot Controller starting..." << std::endl;
+    ComponentManager component_manager;
+
+    if(not component_manager.InitalizeComponents())
+    {
+        spdlog::error("Robot Controller is exiting due to a fatal error.");
+        return 1;
+    }
+
+    spdlog::info("Robot Controller has started.");
+
+    component_manager.RunTaskLoop();
+
     return 0;
 }
