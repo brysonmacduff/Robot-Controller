@@ -3,6 +3,8 @@
 #include <array>
 #include <map>
 #include <cstring>
+#include <sstream>
+#include <iomanip>
 
 namespace RobotMiddleware
 {
@@ -24,8 +26,36 @@ struct Packet
     uint8_t payload_type {0};
     uint8_t payload_size {0};
     std::array<uint8_t, 28> payload {0};
+
+    std::string ToString()
+    {
+        std::ostringstream os;
+
+        os << "Packet { "
+        << "type=0x" << std::hex << std::setw(2) << std::setfill('0') << int(type) << ", "
+        << "seq="     << std::dec << int(sequence_number) << ", "
+        << "payload_type=0x" << std::hex << std::setw(2) << int(payload_type) << ", "
+        << "payload_size="   << std::dec << int(payload_size) << ", "
+        << "payload=[";
+
+        for (size_t i = 0; i < payload.size(); ++i) 
+        {
+            os << "0x" << std::hex << std::setw(2) << std::setfill('0') << int(payload[i]);
+            
+            if (i + 1 < payload.size())
+            {
+                os << " ";
+            }
+        }
+
+        os << "] }";
+
+        return os.str();
+    }
 };
 #pragma pack(pop)
+
+
 
 /**
  * @brief This class includes utilities for remote control of the robot.
