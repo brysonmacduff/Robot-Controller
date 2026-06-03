@@ -35,6 +35,38 @@ message(STATUS "RF24 library:     ${RF24_LIB}")
 
 # -- End of RF24 search ----------------------------------------------------------
 
+# --- Locate pigpio -------------------------------------------------------------
+
+# Find pigpio header
+find_path(PIGPIO_INCLUDE_DIR
+    NAMES pigpio.h
+    PATHS /usr/include /usr/local/include
+    REQUIRED
+)
+
+# Find pigpio libraries
+find_library(PIGPIO_LIBRARY
+    NAMES pigpio
+    PATHS /usr/lib /usr/local/lib
+    REQUIRED
+)
+
+find_library(PIGPIOD_IF2_LIBRARY
+    NAMES pigpiod_if2
+    PATHS /usr/lib /usr/local/lib
+    REQUIRED
+)
+
+# Expose variables to subdirectories
+set(PIGPIO_FOUND TRUE)
+set(PIGPIO_INCLUDE_DIR ${PIGPIO_INCLUDE_DIR} CACHE STRING "Path to pigpio include directory")
+set(PIGPIO_LIBRARIES ${PIGPIO_LIBRARY} ${PIGPIOD_IF2_LIBRARY} pthread CACHE STRING "pigpio libraries")
+
+message(STATUS "pigpio include dir: ${PIGPIO_INCLUDE_DIR}")
+message(STATUS "pigpio libraries:   ${PIGPIO_LIBRARIES}")
+
+# --- End of pigpio search ------------------------------------------------------
+
 add_subdirectory(sensor_manager)
 add_subdirectory(motor_driver)
 add_subdirectory(track_chassis_controller)

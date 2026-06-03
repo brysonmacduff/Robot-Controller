@@ -34,7 +34,7 @@ void Nrf24l01LinkManager::SetRxPacketCallback(RxPacketCallback callback)
     m_rx_packet_callback = std::move(callback);
 }
 
-void Nrf24l01LinkManager::Run(std::chrono::system_clock::time_point current_time)
+void Nrf24l01LinkManager::Run(std::chrono::steady_clock::time_point current_time)
 {
     if(not IsRadioInitialized())
     {

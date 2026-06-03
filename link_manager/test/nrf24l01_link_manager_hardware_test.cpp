@@ -42,7 +42,7 @@ TEST(Nrf24L01LinkManagerHardwareTest, RunRxTxNopLoop)
 
     for(uint32_t counter = 0; counter < count_limit; ++counter)
     {
-        auto current_time = std::chrono::system_clock::now();
+        auto current_time = std::chrono::steady_clock::now();
         link_manager.Run(current_time);
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }

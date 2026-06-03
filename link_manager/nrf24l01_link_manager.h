@@ -53,7 +53,7 @@ public:
      * @brief Drives the state machine behavior of the MTP32 RF communication protocol.
      * @note Used the current_time argument to determine the passage of time between Run() calls.
      */
-    void Run(std::chrono::system_clock::time_point current_time);
+    void Run(std::chrono::steady_clock::time_point current_time);
 
     bool IsRadioInitialized() const { return m_is_radio_initialized; }
 

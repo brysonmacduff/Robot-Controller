@@ -36,7 +36,7 @@ void ComponentManager::RunTaskLoop()
 
     while(true)
     {
-        auto current_time = std::chrono::system_clock::now();
+        auto current_time = std::chrono::steady_clock::now();
         
         m_link_manager.Run(current_time);
 
