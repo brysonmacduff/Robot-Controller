@@ -6,6 +6,12 @@ TrackChassisController::~TrackChassisController()
 {
 }
 
+TrackChassisController::TrackChassisController(ISimpleMotorDriver& left_track_motor, ISimpleMotorDriver& right_track_motor)
+: m_left_track_motor(left_track_motor)
+, m_right_track_motor(right_track_motor)
+{
+}
+
 void TrackChassisController::ChangeMotionState(MotionState motion_state)
 {
     // Only react if the new motion state is different than the current motion state.

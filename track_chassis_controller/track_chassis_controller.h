@@ -1,6 +1,6 @@
 #pragma once
 #include "i_track_chassis_controller.h"
-#include "simple_motor_driver.h"
+#include "i_simple_motor_driver.h"
 
 namespace RobotController
 {
@@ -17,6 +17,8 @@ public:
     TrackChassisController(TrackChassisController&&) = delete;
     TrackChassisController&& operator=(TrackChassisController&&) = delete;
 
+    TrackChassisController(ISimpleMotorDriver& left_track_motor, ISimpleMotorDriver& right_track_motor);
+
     void ChangeMotionState(MotionState motion_state) override;
     const MotionState& GetMotionState() const override { return m_motion_state; };
 
@@ -24,8 +26,8 @@ private:
 
     MotionState m_motion_state { MotionState::IDLE};
 
-    SimpleMotorDriver m_right_track_motor;
-    SimpleMotorDriver m_left_track_motor;
+    ISimpleMotorDriver& m_right_track_motor;
+    ISimpleMotorDriver& m_left_track_motor;
 
     void CeaseMotion();
     void RotateClockwise();
