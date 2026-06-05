@@ -29,6 +29,20 @@ private:
     FakeSimpleMotorDriver m_right_motor;
 };
 
+TEST_F(TrackChassisControllerTest, SetIdleMotionState)
+{
+    ISimpleMotorDriver& left_motor = GetLeftMotor();
+    ISimpleMotorDriver& right_motor = GetRightMotor();
+
+    TrackChassisController tcc (left_motor, right_motor);
+
+    tcc.ChangeMotionState(MotionState::IDLE);
+
+    EXPECT_EQ(tcc.GetMotionState(),MotionState::IDLE);
+    EXPECT_FALSE(left_motor.IsMotorActive());
+    EXPECT_FALSE(right_motor.IsMotorActive());
+}
+
 TEST_F(TrackChassisControllerTest, TranslateForward)
 {
     ISimpleMotorDriver& left_motor = GetLeftMotor();
