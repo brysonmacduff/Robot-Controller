@@ -17,6 +17,7 @@ struct Packet
 {
     static constexpr uint8_t COMMAND = 0xAB;
     static constexpr uint8_t STATUS = 0xBA;
+    static constexpr uint8_t MAXIMUM_PAYLOAD_SIZE = 28;
 
     // COMMAND or STATUS
     uint8_t type {0};
@@ -25,7 +26,7 @@ struct Packet
     // Specifies either the type of command or type of status
     uint8_t payload_type {0};
     uint8_t payload_size {0};
-    std::array<uint8_t, 28> payload {0};
+    std::array<uint8_t, MAXIMUM_PAYLOAD_SIZE> payload {0};
 
     std::string ToString()
     {

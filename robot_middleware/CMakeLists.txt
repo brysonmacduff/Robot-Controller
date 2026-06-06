@@ -7,6 +7,7 @@ project(robot_middleware
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(COMPONENT ${PROJECT_NAME})
 
 file(GLOB SOURCE_HEADER_FILES "*.cpp" "*.h")
 
@@ -18,6 +19,8 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:include/robot_middleware>
 )
+
+add_subdirectory(test)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 
