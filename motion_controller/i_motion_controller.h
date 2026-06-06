@@ -4,9 +4,9 @@ namespace RobotController
 {
 
 /**
- * @brief ITrackChassisController models the motion capabilities of a tracked chassis.
+ * @brief IMotionController models the motion capabilities of a tracked chassis.
  */
-class ITrackChassisController
+class IMotionController
 {
 public:
 
@@ -18,7 +18,7 @@ public:
         ROTATE_ANTICLOCKWISE
     };
 
-    virtual ~ITrackChassisController() = default;
+    virtual ~IMotionController() = default;
 
     /**
      * @brief The implementor of this class is expected to execute the set motion state continuously.

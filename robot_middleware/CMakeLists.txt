@@ -20,6 +20,8 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include/robot_middleware>
 )
 
+target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
+
 add_subdirectory(test)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)

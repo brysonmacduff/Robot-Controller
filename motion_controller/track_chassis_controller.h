@@ -1,5 +1,5 @@
 #pragma once
-#include "i_track_chassis_controller.h"
+#include "i_motion_controller.h"
 #include "i_simple_motor_driver.h"
 
 namespace RobotController
@@ -8,7 +8,7 @@ namespace RobotController
  * @brief This class maintains the current motion state of the robot chassis amd models robot movement based on a tracked chassis design.
  * @note The robot chassis will enact the current motion state continuously.
  */
-class TrackChassisController : ITrackChassisController
+class TrackChassisController : public IMotionController
 {
 public:
     ~TrackChassisController();

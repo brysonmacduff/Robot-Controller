@@ -14,7 +14,7 @@ int main()
 
     spdlog::info("Robot Controller has started.");
 
-    component_manager.RunTaskLoop();
+    component_manager.StartTaskLoop();
 
     return 0;
 }

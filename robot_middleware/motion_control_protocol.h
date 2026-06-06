@@ -1,15 +1,19 @@
 #pragma once
 #include "remote_control_protocol.h"
 
+#include <optional>
+
 namespace RobotMiddleware
 {
+
 /**
- * @brief This class includes utilities for remote control of a robot with a tracked chassis for propulsion.
+ * @brief This class includes utilities for remote control of a robot propulsion system.
  */
-class TrackedChassisProtocol
+class MotionControlProtocol
 {
 public:
-    TrackedChassisProtocol() = delete;
+
+    MotionControlProtocol() = delete;
 
     enum class MotionState
     {
@@ -44,8 +48,24 @@ public:
         {StatusType::MOTION_STATE, 0x00}
     };
 
+    /* High Level Message Structures ---------------------------------- */
+
+    struct MotionCommand
+    {
+        MotionControlProtocol::MotionState motion_state {};
+        uint8_t sequence_number {0};
+    };
+
+    struct MotionStatus
+    {
+        MotionState motion_state {};
+        uint8_t sequence_number {0};
+    };
+
+    /* ----------------------------------------------------------------- */
+
     static Packet BuildMotionCommandPacket(const MotionState& motion_command, uint8_t sequence_number);
-    static Packet BuildMotionStatusPacket(const MotionState& motion_status,uint8_t sequence_number);
+    static Packet BuildMotionStatusPacket(const MotionState& motion_status, uint8_t sequence_number);
     
     /**
      * @brief Indicates whether a packet contains valid information.
@@ -53,11 +73,24 @@ public:
      */
     static bool IsPacketValid(const Packet& packet);
 
+    /**
+     * @brief Determines whether the received packet is a valid motion command message.
+     */
+    static bool IsMotionCommandPacket(const Packet& packet);
+
+    /**
+     * @brief Extracts the essential motion command data from the packet. Strips out lower-level protocol data.
+     * @returns Empty optional type if extraction fails due an invalid packet or incompatible packet type. "Incompatible" would refer to a non-motion command packet.
+     */
+    static std::optional<MotionCommand> ExtractMotionCommand(const Packet& packet);
+
 private:
     static bool IsPacketTypeValid(const Packet& packet);
     static bool IsPayloadTypeValid(const Packet& packet);
     static bool IsPayloadSizeValid(const Packet& packet);
     static bool IsCommandPayloadTypeValid(uint8_t type);
     static bool IsStatusPayloadTypeValid(uint8_t type);
+    static bool IsMotionStateCodeValid(uint8_t motion_state_code);
+
 };
 } // namespace RobotMiddleware

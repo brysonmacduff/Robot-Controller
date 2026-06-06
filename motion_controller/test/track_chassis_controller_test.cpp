@@ -5,7 +5,7 @@
 namespace 
 {
 using namespace RobotController;
-using MotionState = ITrackChassisController::MotionState;
+using MotionState = IMotionController::MotionState;
 
 struct FakeSimpleMotorDriver : public ISimpleMotorDriver
 {
