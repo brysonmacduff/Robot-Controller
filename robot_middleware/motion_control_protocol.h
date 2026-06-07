@@ -78,11 +78,22 @@ public:
      */
     static bool IsMotionCommandPacket(const Packet& packet);
 
+     /**
+     * @brief Determines whether the received packet is a valid motion status message.
+     */
+    static bool IsMotionStatusPacket(const Packet& packet);
+
     /**
      * @brief Extracts the essential motion command data from the packet. Strips out lower-level protocol data.
-     * @returns Empty optional type if extraction fails due an invalid packet or incompatible packet type. "Incompatible" would refer to a non-motion command packet.
+     * @returns Empty optional type if extraction fails due to an invalid packet or incompatible packet type. "Incompatible" would refer to a non-motion command packet.
      */
     static std::optional<MotionCommand> ExtractMotionCommand(const Packet& packet);
+
+    /**
+     * @brief Extracts the essential motion status data from the packet, dropping the lower-level protocol data in the packet.
+     * @returns Empty optional type if extraction fails due to an invalid packet for incompatible packet type. "Incompatible" would refer to a non-motion status packet.
+     */
+    static std::optional<MotionStatus> ExtractMotionStatus(const Packet& packet);
 
 private:
     static bool IsPacketTypeValid(const Packet& packet);

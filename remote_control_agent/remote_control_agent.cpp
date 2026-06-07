@@ -7,6 +7,7 @@ RemoteControlAgent::RemoteControlAgent(ILinkManager &link_manager, IMotionContro
 , m_motion_controller(motion_controller)
 , m_status_reporting_interval(status_reporting_interval)
 {
+    SetLinkManagerRxCallback();
     InitializeMessageHandlingMiddleware();
 }
 
@@ -36,9 +37,9 @@ void RemoteControlAgent::SetLinkManagerRxCallback()
 {
     m_link_manager.SetRxPacketCallback([&](RobotMiddleware::Packet rx_packet)
     {
-        if(RobotMiddleware::MotionControlProtocol::IsPacketValid(rx_packet))
+        if(not RobotMiddleware::MotionControlProtocol::IsPacketValid(rx_packet))
         {
-            spdlog::warn("{}::{}() -> Dropped invalid packet.", CLASS_NAME, __func__);
+            spdlog::warn("{}::LinkManagerRxCallback() -> Dropped invalid packet.", CLASS_NAME);
             return;
         }
 

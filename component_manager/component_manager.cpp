@@ -24,7 +24,7 @@ bool ComponentManager::InitalizeComponents()
 
     if(gpioInitialise() < 0)
     {
-        spdlog::error("{}::{}() -> Failed to initialize GPIO hardward!",CLASS_NAME,__func__);
+        spdlog::error("{}::{}() -> Failed to initialize GPIO hardware!",CLASS_NAME,__func__);
         return false;
     }
 

@@ -56,6 +56,26 @@ bool MotionControlProtocol::IsMotionCommandPacket(const Packet& packet)
     return result;
 }
 
+bool MotionControlProtocol::IsMotionStatusPacket(const Packet& packet)
+{
+    if(not IsPacketValid(packet))
+    {
+        return false;
+    }
+
+    bool result = true;
+
+    result &= packet.type == Packet::STATUS;
+    result &= packet.payload_type == STATUS_TYPE_CODES.at(StatusType::MOTION_STATE);
+    result &= packet.payload_size == 1;
+
+    const uint8_t motion_state_code = packet.payload[0];
+
+    result &= IsMotionStateCodeValid(motion_state_code);
+
+    return result;
+}
+
 std::optional<MotionCommand> MotionControlProtocol::ExtractMotionCommand(const Packet &packet)
 {
     if(not IsMotionCommandPacket(packet))
@@ -77,6 +97,29 @@ std::optional<MotionCommand> MotionControlProtocol::ExtractMotionCommand(const P
     }
 
     return motion_command;
+}
+
+std::optional<MotionControlProtocol::MotionStatus> MotionControlProtocol::ExtractMotionStatus(const Packet& packet)
+{
+    if(not IsMotionStatusPacket(packet))
+    {
+        return std::nullopt;
+    }
+
+    MotionStatus motion_status {};
+
+    const uint8_t motion_state_code = packet.payload[0];
+
+    for(auto pair : MOTION_STATE_CODES)
+    {
+        if(pair.second == motion_state_code)
+        {
+            motion_status.motion_state = pair.first;
+            break;
+        }
+    }
+
+    return motion_status;
 }
 
 bool MotionControlProtocol::IsPacketTypeValid(const Packet &packet)
