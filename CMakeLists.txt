@@ -9,6 +9,8 @@ find_package(GTest REQUIRED)
 find_package(mtp32 REQUIRED)
 find_package(spdlog REQUIRED)
 
+include(CTest)
+
 # --- Locate RF24 -------------------------------------------------------------
 
 # Find the RF24 shared library
