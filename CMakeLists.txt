@@ -9,6 +9,8 @@ find_package(GTest REQUIRED)
 find_package(mtp32 REQUIRED)
 find_package(spdlog REQUIRED)
 
+include(CTest)
+
 # --- Locate RF24 -------------------------------------------------------------
 
 # Find the RF24 shared library
@@ -69,8 +71,9 @@ message(STATUS "pigpio libraries:   ${PIGPIO_LIBRARIES}")
 
 add_subdirectory(sensor_manager)
 add_subdirectory(motor_driver)
-add_subdirectory(track_chassis_controller)
+add_subdirectory(motion_controller)
 add_subdirectory(link_manager)
 add_subdirectory(component_manager)
 add_subdirectory(robot_middleware)
+add_subdirectory(remote_control_agent)
 add_subdirectory(src)

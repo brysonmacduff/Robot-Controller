@@ -11,3 +11,5 @@ target_link_libraries(${COMPONENT}.test PUBLIC
     GTest::gtest_main
     ${COMPONENT}
 )
+
+add_test(NAME ${COMPONENT}.test COMMAND ${COMPONENT}.test)

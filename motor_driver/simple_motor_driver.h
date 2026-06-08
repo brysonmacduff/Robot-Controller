@@ -7,7 +7,7 @@ namespace RobotController
 {
 /**
  * @brief SimpleMotorDriver is a basic motor control class that provides simple on-off switch control of a motor.
- * @note It is assumed that this driver is controlling gpio pin that is attacked to a relay that managed the power supply to a motor.
+ * @note It is assumed that this driver is controlling a gpio pin that is attached to a relay that manages the power supply to a motor.
  * @warning 
  * - Requires root privilege to use gpio hardware. 
  * - This class is not responsible for gpio hardware management. It will not work properly if gpio hardware is not initialized.

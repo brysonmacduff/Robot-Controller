@@ -1,4 +1,4 @@
-set(COMPONENT "track_chassis_controller")
+set(COMPONENT "motion_controller")
 
 file(GLOB SRC_FILES
     "*.cpp"
