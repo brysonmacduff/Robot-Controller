@@ -1,4 +1,4 @@
-set(COMPONENT ${PROJECT_NAME})
+set(COMPONENT "diagnostics")
 
 file(GLOB SRC_FILES
     "*.cpp"
@@ -6,5 +6,5 @@ file(GLOB SRC_FILES
 )
 
 add_executable(${COMPONENT} ${SRC_FILES})
-target_link_libraries(${COMPONENT} PUBLIC component_manager)
+target_link_libraries(${COMPONENT} PUBLIC motion_controller motor_driver spdlog::spdlog ${PIGPIO_LIBRARIES})
 target_include_directories(${COMPONENT} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -10,7 +10,6 @@ TrackChassisController::TrackChassisController(ISimpleMotorDriver& left_track_mo
 : m_left_track_motor(left_track_motor)
 , m_right_track_motor(right_track_motor)
 {
-    CeaseMotion();
 }
 
 void TrackChassisController::ChangeMotionState(MotionState motion_state)
