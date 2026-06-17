@@ -29,6 +29,7 @@ bool ComponentManager::InitalizeComponents()
     }
 
     m_is_initialized = m_link_manager.InitializeRadio();
+    m_track_chassis_controller.ChangeMotionState(IMotionController::MotionState::IDLE);
 
     return IsInitialized();
 }
