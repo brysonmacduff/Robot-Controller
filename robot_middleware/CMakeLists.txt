@@ -9,6 +9,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(COMPONENT ${PROJECT_NAME})
 
+find_package(spdlog REQUIRED)
+find_package(GTest REQUIRED)
+
 file(GLOB SOURCE_HEADER_FILES "*.cpp" "*.h")
 
 # Create the library

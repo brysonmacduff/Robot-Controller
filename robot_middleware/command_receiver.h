@@ -14,7 +14,8 @@ using MotionCommand = MotionControlProtocol::MotionCommand;
 class CommandReceiver
 {
 public:
-    using ReceiverCallback = std::function<void(const MotionCommand& motion_command)>;
+    // TODO: Generalize receiver callback logic to support other packet types
+    using MotionCommandReceiverCallback = std::function<void(const MotionCommand& motion_command)>;
 
     CommandReceiver() = default;
 
@@ -30,24 +31,26 @@ public:
             return;
         }
 
+        // TODO: Create a dispatcher function for identifying the command type and activating the appropriate RX callback
+
         const std::optional<MotionCommand> motion_command_opt = MotionControlProtocol::ExtractMotionCommand(packet);
 
         if(motion_command_opt.has_value())
         {
-            m_receiver_callback(motion_command_opt.value_or(MotionCommand{}));
+            m_motion_command_receiver_callback(motion_command_opt.value_or(MotionCommand{}));
         }
     }
 
     /**
      * @brief Set a callback that CommandReceiver activates when a motion command message has been received.
      */
-    void SetReceiverCallback(ReceiverCallback callback) { m_receiver_callback = std::move(callback); }
+    void SetMotionCommandReceiverCallback(MotionCommandReceiverCallback callback) { m_motion_command_receiver_callback = std::move(callback); }
 
 private:
 
     static constexpr std::string_view CLASS_NAME = "CommandReceiver";
 
-    ReceiverCallback m_receiver_callback = [](const MotionCommand& motion_command){ (void)motion_command; };
+    MotionCommandReceiverCallback m_motion_command_receiver_callback = [](const MotionCommand& motion_command){ (void)motion_command; };
 };
 
 } // namespace RobotMiddleware
