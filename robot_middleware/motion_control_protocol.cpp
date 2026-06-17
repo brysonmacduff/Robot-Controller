@@ -96,6 +96,8 @@ std::optional<MotionCommand> MotionControlProtocol::ExtractMotionCommand(const P
         }
     }
 
+    motion_command.sequence_number = packet.sequence_number;
+
     return motion_command;
 }
 
@@ -118,6 +120,8 @@ std::optional<MotionControlProtocol::MotionStatus> MotionControlProtocol::Extrac
             break;
         }
     }
+
+    motion_status.sequence_number = packet.sequence_number;
 
     return motion_status;
 }

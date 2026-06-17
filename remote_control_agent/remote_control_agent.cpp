@@ -60,7 +60,7 @@ void RemoteControlAgent::InitializeMessageHandlingMiddleware()
      * Currently there is only one type of command message (motion state command). However, in the future the command receiver will need to support additional
      * command message types (add more callbacks perhaps for each command type).
     */ 
-    m_command_receiver.SetReceiverCallback([&](const RobotMiddleware::MotionCommand& motion_command)
+    m_command_receiver.SetMotionCommandReceiverCallback([&](const RobotMiddleware::MotionCommand& motion_command)
     { 
         m_motion_controller.ChangeMotionState(MotionStateConvertor::MiddlewareToLocal(motion_command.motion_state));
     });

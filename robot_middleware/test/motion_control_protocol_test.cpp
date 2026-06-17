@@ -112,6 +112,7 @@ TEST(MotionControlProtocolTest, ExtractMotionCommand)
 
     ASSERT_TRUE(motion_command_opt.has_value());
     EXPECT_EQ(motion_command_opt.value().motion_state, MotionControlProtocol::MotionState::TRANSLATE_FORWARD);
+    EXPECT_EQ(motion_command_opt.value().sequence_number, packet.sequence_number);
 }
 
 TEST(MotionControlProtocolTest, ExtractMotionStatus)
@@ -121,12 +122,13 @@ TEST(MotionControlProtocolTest, ExtractMotionStatus)
     packet.payload_type = MotionControlProtocol::STATUS_TYPE_CODES.at(MotionControlProtocol::StatusType::MOTION_STATE);
     packet.payload[0] = MotionControlProtocol::MOTION_STATE_CODES.at(MotionControlProtocol::MotionState::TRANSLATE_FORWARD);
     packet.payload_size = 1;
-    packet.sequence_number = 22;
+    packet.sequence_number = 21;
 
     const auto motion_status_opt = MotionControlProtocol::ExtractMotionStatus(packet);
     
     ASSERT_TRUE(motion_status_opt.has_value());
     EXPECT_EQ(motion_status_opt.value().motion_state, MotionControlProtocol::MotionState::TRANSLATE_FORWARD);
+    EXPECT_EQ(motion_status_opt.value().sequence_number, packet.sequence_number);
 }
 
 }
