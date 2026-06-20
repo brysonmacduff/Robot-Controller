@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(COMPONENT ${PROJECT_NAME})
 
-find_package(spdlog REQUIRED)
 find_package(GTest REQUIRED)
 
 file(GLOB SOURCE_HEADER_FILES "*.cpp" "*.h")
@@ -22,8 +21,6 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:include/robot_middleware>
 )
-
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
 
 add_subdirectory(test)
 
