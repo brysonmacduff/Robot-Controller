@@ -1,8 +1,6 @@
 #pragma once
 #include "motion_control_protocol.h"
 
-#include <spdlog/spdlog.h>
-
 #include <string_view>
 #include <functional>
 
@@ -27,7 +25,6 @@ public:
     {
         if(not MotionControlProtocol::IsPacketValid(packet))
         {
-            spdlog::debug("{}::{}() -> Received invalid packet! The packet was dropped.",CLASS_NAME,__func__);
             return;
         }
 
