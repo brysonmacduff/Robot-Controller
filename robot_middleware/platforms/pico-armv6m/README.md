@@ -6,6 +6,5 @@ The headers and library file will appear in the pico platform directory where yo
 
 ```
 cmake -S . -B build -DCMAKE_INSTALL_PREFIX=.
-cmake --build build
-sudo cmake --install build
+cmake --build build --target install
 ```
