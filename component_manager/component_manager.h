@@ -20,7 +20,7 @@ public:
     static constexpr std::chrono::milliseconds DEFAULT_TASK_LOOP_PERIOD {50};
 
     ~ComponentManager();
-    ComponentManager(std::chrono::milliseconds task_loop_period = DEFAULT_TASK_LOOP_PERIOD);
+    ComponentManager(const Configuration& configuration, std::chrono::milliseconds task_loop_period = DEFAULT_TASK_LOOP_PERIOD);
 
     /**
      * @brief Initialize the components that this class manages.
@@ -49,10 +49,11 @@ private:
 
     std::chrono::milliseconds m_task_loop_period {DEFAULT_TASK_LOOP_PERIOD};
     Nrf24l01LinkManager m_link_manager;
-    SimpleMotorDriver m_left_track_motor {Configuration::DEFAULT_TRACK_CHASSIS.left_track_motor_gpio};
-    SimpleMotorDriver m_right_track_motor {Configuration::DEFAULT_TRACK_CHASSIS.right_track_motor_gpio};
+    SimpleMotorDriver m_left_track_motor;
+    SimpleMotorDriver m_right_track_motor;
     TrackChassisController m_track_chassis_controller;
     RemoteControlAgent m_remote_control_agent;
+    const Configuration& m_configuration;
     bool m_is_initialized { false };
     bool m_is_task_loop_enabled { false };
 

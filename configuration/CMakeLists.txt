@@ -1,4 +1,4 @@
-set(COMPONENT "component_manager")
+set(COMPONENT "configuration")
 
 file(GLOB SRC_FILES
     "*.cpp"
@@ -7,6 +7,6 @@ file(GLOB SRC_FILES
 
 add_library(${COMPONENT} STATIC ${SRC_FILES})
 target_include_directories(${COMPONENT} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(${COMPONENT} PUBLIC link_manager ${PIGPIO_LIBRARIES} motion_controller remote_control_agent configuration)
+target_link_libraries(${COMPONENT} PUBLIC yaml-cpp spdlog::spdlog)
 
 add_subdirectory(test)

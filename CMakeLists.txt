@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(GTest REQUIRED)
 find_package(mtp32 REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 include(CTest)
 
@@ -69,6 +70,7 @@ message(STATUS "pigpio libraries:   ${PIGPIO_LIBRARIES}")
 
 # --- End of pigpio search ------------------------------------------------------
 
+add_subdirectory(configuration)
 add_subdirectory(sensor_manager)
 add_subdirectory(motor_driver)
 add_subdirectory(motion_controller)
