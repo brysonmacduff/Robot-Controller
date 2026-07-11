@@ -2,9 +2,18 @@
 
 using namespace RobotController;
 
-int main()
+int main(int argc, const char* argv[])
 {
-    ComponentManager component_manager;
+    Configuration configuration;
+    
+    configuration.ParseArguments(argc, argv);
+
+    if(not configuration.IsValid())
+    {
+        return 1;
+    }
+
+    ComponentManager component_manager(configuration);
 
     if(not component_manager.InitalizeComponents())
     {

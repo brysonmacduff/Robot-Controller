@@ -8,10 +8,13 @@ ComponentManager::~ComponentManager()
     gpioTerminate();
 }
 
-ComponentManager::ComponentManager(std::chrono::milliseconds task_loop_period)
+ComponentManager::ComponentManager(const Configuration& configuration, std::chrono::milliseconds task_loop_period)
 : m_task_loop_period(task_loop_period)
+, m_left_track_motor(SimpleMotorDriver(configuration.GetTrackChassis().left_track_motor_gpio))
+, m_right_track_motor(SimpleMotorDriver(configuration.GetTrackChassis().right_track_motor_gpio))
 , m_track_chassis_controller(m_left_track_motor, m_right_track_motor)
 , m_remote_control_agent(m_link_manager, m_track_chassis_controller)
+, m_configuration(configuration)
 {
 }
 
