@@ -1,4 +1,4 @@
-set(COMPONENT "sensor_manager")
+set(COMPONENT "utilities")
 
 file(GLOB SRC_FILES
     "*.cpp"
@@ -7,5 +7,4 @@ file(GLOB SRC_FILES
 
 add_library(${COMPONENT} STATIC ${SRC_FILES})
 target_include_directories(${COMPONENT} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-add_subdirectory(test)
+set_target_properties(${COMPONENT} PROPERTIES LINKER_LANGUAGE CXX)
