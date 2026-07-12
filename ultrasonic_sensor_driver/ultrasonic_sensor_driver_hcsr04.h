@@ -77,7 +77,7 @@ private:
     std::chrono::microseconds m_echo_high_tick { 0 };
     std::chrono::microseconds m_echo_low_tick { 0 };
 
-    // This function is a callback that should be activated when the selected gpio switches from its voltage level
+    // This function is a callback that should be activated when the selected gpio switches its voltage level
     void GpioEdgeAlertHandler(int gpio, int level, uint32_t tick);
     void ProcessTimeOfFlightSample();
     static float ComputeRangeMeters(std::chrono::microseconds start_time, std::chrono::microseconds end_time);
