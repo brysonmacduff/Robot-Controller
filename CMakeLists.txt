@@ -5,6 +5,11 @@ project(robot_controller VERSION 0.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Ensure that onnx runtime is installed at the ONNXRUNTIME_DIR directory
+set(ONNXRUNTIME_DIR "$ENV{HOME}/opt/onnxruntime")
+include_directories(${ONNXRUNTIME_DIR}/include)
+link_directories(${ONNXRUNTIME_DIR}/lib)
+
 find_package(GTest REQUIRED)
 find_package(mtp32 REQUIRED)
 find_package(spdlog REQUIRED)
@@ -80,3 +85,4 @@ add_subdirectory(robot_middleware)
 add_subdirectory(remote_control_agent)
 add_subdirectory(src)
 add_subdirectory(diagnostics)
+add_subdirectory(autonomous_control_agent)

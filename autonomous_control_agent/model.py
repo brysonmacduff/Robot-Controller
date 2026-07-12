@@ -96,9 +96,20 @@ for epoch in range(epochs):
 # -----------------------------
 # 6. Export trained model
 # -----------------------------
-torch.save(model.state_dict(), "model_weights.pth")
+torch.save(model.state_dict(), "model.pth")
 
 # Export TorchScript model for C++
+
 example_input = torch.randn(1, 7)  # 7 input features
 traced = torch.jit.trace(model, example_input)
-traced.save("model_weights.pt")
+traced.save("model.pt")
+
+torch.onnx.export(
+    model,
+    torch.randn(1, 4),
+    "model.onnx",
+    input_names=["input"],
+    output_names=["output"],
+    opset_version=17
+)
+
