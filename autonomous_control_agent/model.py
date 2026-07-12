@@ -104,12 +104,14 @@ example_input = torch.randn(1, 7)  # 7 input features
 traced = torch.jit.trace(model, example_input)
 traced.save("model.pt")
 
+model.eval()
+
 torch.onnx.export(
     model,
-    torch.randn(1, 4),
+    torch.randn(1, 7),
     "model.onnx",
     input_names=["input"],
     output_names=["output"],
-    opset_version=17
+    opset_version=18
 )
 
