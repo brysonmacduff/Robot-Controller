@@ -13,8 +13,8 @@ int main() {
     Ort::Session session(env, "model.onnx", session_options);
 
     // Input data (1x4 tensor)
-    std::vector<float> input_data = {0.1f, 0.2f, 0.3f, 0.4f};
-    std::vector<int64_t> input_shape = {1, 4};
+    std::vector<float> input_data = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
+    std::vector<int64_t> input_shape = {1, 7};
 
     // Create CPU memory info (required on ARM)
     Ort::MemoryInfo memory_info = Ort::MemoryInfo::CreateCpu(
