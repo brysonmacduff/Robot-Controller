@@ -71,7 +71,6 @@ message(STATUS "pigpio libraries:   ${PIGPIO_LIBRARIES}")
 # --- End of pigpio search ------------------------------------------------------
 
 add_subdirectory(configuration)
-add_subdirectory(sensor_manager)
 add_subdirectory(motor_driver)
 add_subdirectory(motion_controller)
 add_subdirectory(link_manager)
@@ -82,3 +81,4 @@ add_subdirectory(src)
 add_subdirectory(diagnostics)
 add_subdirectory(utilities)
 add_subdirectory(ultrasonic_sensor_driver)
+add_subdirectory(sensor_manager)

@@ -1,5 +1,6 @@
 #include "ultrasonic_sensor_driver_hcsr04.h"
 #include <gtest/gtest.h>
+#include <thread>
 
 namespace
 {

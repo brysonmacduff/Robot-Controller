@@ -42,7 +42,7 @@ public:
     /**
      * @brief Initializes communication with the sensor device and prepares to service range sample requests.
      */
-    bool InitializeSensor();
+    bool InitializeSensor() override;
 
     /**
      * @brief The last known distance that the ultrasonic sensor reported.

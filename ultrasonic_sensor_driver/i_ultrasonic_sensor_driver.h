@@ -18,5 +18,11 @@ public:
      * @note The range callback must report the range in meters.
     */
     virtual void SetRangeSampleCallback(std::function<void(float range_meters)> callback) = 0;
+
+    /**
+     * @brief Request that the sensor hardware initializes.
+     * @returns Whether the hardware initialization succeeded.
+     */
+    virtual bool InitializeSensor() = 0;
 };
 } // namespace RobotController
