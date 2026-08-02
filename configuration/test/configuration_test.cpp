@@ -18,6 +18,14 @@ TEST(ConfigurationTest, DefaultTrackChassisIsReturned)
     EXPECT_TRUE(cfg.IsValid());
 }
 
+TEST(ConfigurationTest, DefaultStartupLedGpioIsReturned)
+{
+    Configuration cfg;
+
+    EXPECT_EQ(cfg.GetStartupLedGpio(), Configuration::DEFAULT_STARTUP_LED_GPIO);
+    EXPECT_TRUE(cfg.IsValid());
+}
+
 TEST(ConfigurationTest, ParseLongHelpArgument)
 {
     Configuration cfg;
@@ -46,6 +54,7 @@ TEST(ConfigurationTest, ParseConfigFilePathLongArgument)
     ASSERT_TRUE(cfg.ParseArguments(arguments));
     EXPECT_EQ(cfg.GetTrackChassis().left_track_motor_gpio, 10);
     EXPECT_EQ(cfg.GetTrackChassis().right_track_motor_gpio, 11);
+    EXPECT_EQ(cfg.GetStartupLedGpio(), 25);
     EXPECT_TRUE(cfg.IsValid());
 }
 
@@ -58,6 +67,7 @@ TEST(ConfigurationTest, ParseConfigFilePathShortArgument)
     ASSERT_TRUE(cfg.ParseArguments(argument_count, raw_arguments));
     EXPECT_EQ(cfg.GetTrackChassis().left_track_motor_gpio, 10);
     EXPECT_EQ(cfg.GetTrackChassis().right_track_motor_gpio, 11);
+    EXPECT_EQ(cfg.GetStartupLedGpio(), 25);
     EXPECT_TRUE(cfg.IsValid());
 }
 

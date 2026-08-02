@@ -4,6 +4,7 @@
 #include "remote_control_agent.h"
 #include "simple_motor_driver.h"
 #include "configuration.h"
+#include "led_driver.h"
 
 #include <spdlog/spdlog.h>
 #include <pigpio.h>
@@ -53,6 +54,8 @@ private:
     SimpleMotorDriver m_right_track_motor;
     TrackChassisController m_track_chassis_controller;
     RemoteControlAgent m_remote_control_agent;
+    LedDriverFactory m_led_driver_factory;
+    std::unique_ptr<LedDriver> m_startup_led_driver_ptr = nullptr;
     const Configuration& m_configuration;
     bool m_is_initialized { false };
     bool m_is_task_loop_enabled { false };

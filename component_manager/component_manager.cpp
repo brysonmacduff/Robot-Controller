@@ -34,6 +34,9 @@ bool ComponentManager::InitalizeComponents()
     m_is_initialized = m_link_manager.InitializeRadio();
     m_track_chassis_controller.ChangeMotionState(IMotionController::MotionState::IDLE);
 
+    m_startup_led_driver_ptr = m_led_driver_factory.Build(m_configuration.GetStartupLedGpio());
+    m_is_initialized &= m_startup_led_driver_ptr != nullptr;
+
     return IsInitialized();
 }
 
@@ -46,6 +49,8 @@ void ComponentManager::StartTaskLoop()
     }
 
     m_is_task_loop_enabled = true;
+
+    m_startup_led_driver_ptr->Enable();
 
     while(m_is_task_loop_enabled)
     {

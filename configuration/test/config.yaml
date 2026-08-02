@@ -1,3 +1,4 @@
 track_chassis:
   left_track_motor_gpio: 10
   right_track_motor_gpio: 11
+startup_led_gpio: 25
