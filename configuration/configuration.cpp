@@ -144,6 +144,13 @@ bool Configuration::ParseConfigurationFromYamlFile(const std::string& file_path)
     m_track_chassis.left_track_motor_gpio = config["track_chassis"]["left_track_motor_gpio"].as<uint8_t>();
     m_track_chassis.right_track_motor_gpio = config["track_chassis"]["right_track_motor_gpio"].as<uint8_t>();
 
+    if(not config["startup_led_gpio"].IsDefined())
+    {
+        return false;
+    }
+
+    m_startup_led_gpio = config["startup_led_gpio"].as<uint8_t>();
+
     return true;
 }
 

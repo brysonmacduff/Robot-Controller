@@ -21,16 +21,21 @@ bool LedDriver::Disable()
     return 0 == gpioWrite(m_led_gpio, PI_LOW);
 }
 
-std::optional<LedDriver> LedDriverFactory::Build(uint8_t led_gpio)
+std::unique_ptr<LedDriver> LedDriverFactory::Build(uint8_t led_gpio)
 {
-    LedDriver led_driver(led_gpio);
+    m_led_driver_ptr = std::unique_ptr<LedDriver>(new LedDriver(led_gpio));
 
-    if(not led_driver.Initialize())
+    if(not m_led_driver_ptr->Initialize())
     {
-        return std::nullopt;
+        return nullptr;
     }
 
-    return led_driver;
+    return std::move(m_led_driver_ptr);
+}
+
+void LedDriverFactory::Reset()
+{
+    m_led_driver_ptr.reset();
 }
 
 } // namespace RobotController

@@ -1,7 +1,7 @@
 #pragma once
 #include "i_led_driver.h"
 #include <cstdint>
-#include <optional>
+#include <memory>
 #include <pigpio.h>
 
 namespace RobotController
@@ -25,7 +25,7 @@ private:
     friend LedDriverFactory;
 
     uint8_t m_led_gpio { 0 };
-
+    
     LedDriver(uint8_t led_gpio);
     bool Initialize();
 };
@@ -38,9 +38,18 @@ class LedDriverFactory
 public:
     /**
      * @brief Attempts to build and initialize an LedDriver instance.
-     * @returns An LedDriver instance if successful, std::nullopt otherwise.
+     * @returns An LedDriver instance if successful, nullptr otherwise.
      */
-    std::optional<LedDriver> Build(uint8_t led_gpio);
+    std::unique_ptr<LedDriver> Build(uint8_t led_gpio);
+
+    /**
+     * @brief Resets the LedDriver instance that is under construction.
+     */
+    void Reset();
+
+private:
+
+    std::unique_ptr<LedDriver> m_led_driver_ptr;
 };
 
 } // namespace RobotController

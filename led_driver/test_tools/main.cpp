@@ -5,7 +5,7 @@
 
 using namespace RobotController;
 
-constexpr uint8_t LED_GPIO = 8;
+constexpr uint8_t LED_GPIO = 26;
 constexpr std::chrono::milliseconds BLINK_INTERVAL {100};
 
 int main()
@@ -17,21 +17,19 @@ int main()
     }
 
     LedDriverFactory factory;
-    std::optional<LedDriver> led_driver_opt = factory.Build(LED_GPIO);
+    std::unique_ptr<LedDriver> led_driver_ptr = factory.Build(LED_GPIO);
 
-    if(not led_driver_opt.has_value())
+    if(led_driver_ptr == nullptr)
     {
         spdlog::error("Failed to build the LED Driver");
         return 1;
     }
 
-    LedDriver& led_driver = led_driver_opt.value();
-
     while(true)
     {
-        led_driver.Enable();
+        led_driver_ptr->Enable();
         std::this_thread::sleep_for(BLINK_INTERVAL);
-        led_driver.Disable();
+        led_driver_ptr->Disable();
         std::this_thread::sleep_for(BLINK_INTERVAL);
     }
 

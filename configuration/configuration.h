@@ -24,6 +24,8 @@ public:
 
     inline static const TrackChassis DEFAULT_TRACK_CHASSIS { 16, 12 };
 
+    static constexpr uint8_t DEFAULT_STARTUP_LED_GPIO { 26 };
+
     Configuration() = default;
 
     /**
@@ -39,6 +41,7 @@ public:
     bool ParseArguments(const std::vector<std::string>& arguments);
 
     const TrackChassis& GetTrackChassis() const { return m_track_chassis; }
+    uint8_t GetStartupLedGpio() const { return m_startup_led_gpio; }
 
     /**
      * @brief Indicates whether the configuration is in a valid state. In some cases, the configuration can be parsed from invalid instructions.
@@ -51,6 +54,7 @@ private:
 
     bool m_is_valid { true };
     TrackChassis m_track_chassis { DEFAULT_TRACK_CHASSIS };
+    uint8_t m_startup_led_gpio { DEFAULT_STARTUP_LED_GPIO };
 
     bool ParseConfigurationFromYamlFile(const std::string& file_path);
     bool IsYamlConfigFilePathValid(const std::string& file_path);
